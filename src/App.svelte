@@ -1,47 +1,103 @@
 <script>
-  import svelteLogo from './assets/svelte.svg'
-  import viteLogo from '/vite.svg'
-  import Counter from './lib/Counter.svelte'
+  import Router from "svelte-spa-router";
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
+  import Header from "./components/Header.svelte";
+  import Seite1 from "./pages/Seite1.svelte";
+  import Seite2 from "./pages/Seite2.svelte";
+  import Seite3 from "./pages/Seite3.svelte"; // Import the new page
+  import Planet from "./components/Planet.svelte";
+
+  const routes = {
+    "/": Seite1,
+    "/planet/:id": Planet,
+    "/Seite2": Seite2,
+    "/table-view": Seite3 // Add the new route
+  };
+
+  // Store to hold the current route
+  const currentRoute = writable('/');
+
+  onMount(() => {
+    // Update the current route when the hash changes
+    const updateRoute = () => currentRoute.set(window.location.hash.replace('#', ''));
+    window.addEventListener('hashchange', updateRoute);
+    updateRoute(); // Set the initial route
+    return () => window.removeEventListener('hashchange', updateRoute);
+  });
 </script>
 
-<main>
-  <div>
-    <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-      <img src={viteLogo} class="logo" alt="Vite Logo" />
-    </a>
-    <a href="https://svelte.dev" target="_blank" rel="noreferrer">
-      <img src={svelteLogo} class="logo svelte" alt="Svelte Logo" />
-    </a>
-  </div>
-  <h1>Vite + Svelte</h1>
-
-  <div class="card">
-    <Counter />
-  </div>
-
-  <p>
-    Check out <a href="https://github.com/sveltejs/kit#readme" target="_blank" rel="noreferrer">SvelteKit</a>, the official Svelte app framework powered by Vite!
-  </p>
-
-  <p class="read-the-docs">
-    Click on the Vite and Svelte logos to learn more
-  </p>
-</main>
+<div id="wrapper">
+  <Header />
+  <nav>
+    <ul>
+      <li class:selected={$currentRoute === "/"}><a href="#/">Planet overview</a></li>
+      <li class:selected={$currentRoute === "/Seite2"}><a href="#/Seite2">Comparison</a></li>
+      <li class:selected={$currentRoute === "/table-view"}><a href="#/table-view">Table View</a></li> <!-- Add link to table view -->
+    </ul>
+  </nav>
+  <main>
+    <Router {routes} />
+  </main>
+</div>
 
 <style>
-  .logo {
-    height: 6em;
-    padding: 1.5em;
-    will-change: filter;
-    transition: filter 300ms;
+  body, html {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
   }
-  .logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
+
+  #wrapper {
+    width: 100%;
+    height: 100%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0em;
+    box-sizing: border-box;
   }
-  .logo.svelte:hover {
-    filter: drop-shadow(0 0 2em #ff3e00aa);
+
+  nav {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .read-the-docs {
-    color: #888;
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+  }
+
+  nav ul li {
+    margin: 0 1em;
+    position: relative;
+  }
+
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+
+  nav ul li.selected::after {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: white;
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+  }
+
+  main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
   }
 </style>

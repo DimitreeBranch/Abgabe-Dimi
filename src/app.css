@@ -1,5 +1,5 @@
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Helvetica', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -23,11 +23,14 @@ a:hover {
 }
 
 body {
+  background: url('/planetenbilder/sternenhimmel.jpg');
+  background-size: 30%;
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  font-family: 'Helvetica', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif; /* Ensure body uses the same font stack */
 }
 
 h1 {
@@ -40,7 +43,6 @@ h1 {
 }
 
 #app {
-  max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   text-align: center;
@@ -52,7 +54,7 @@ button {
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
-  font-family: inherit;
+  font-family: inherit; /* Use the inherited font stack */
   background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
