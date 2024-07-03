@@ -50,6 +50,7 @@
       {/each}
     </div>
   {/if}
+  <img src="/planetenbilder/sonne.png" alt="Sun" class="sun-image" />
 </div>
 
 <style>
@@ -69,9 +70,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    
     align-items: flex-start; /* Start from the left */
     overflow: hidden; /* Prevent horizontal scrolling */
+    position: relative;
   }
 
   .outer-container h1 {
@@ -95,7 +96,17 @@
     height: 100%;
     background: transparent; /* Transparent background to see the background image */
     overflow: hidden; /* Prevent horizontal scrolling */
-    overflow: hidden; /* Prevent horizontal scrolling */
+  }
+
+  .sun-image {
+    position: fixed;
+    top: 0;
+    left: -20%; /* Move the image 20% to the left */
+    width: 120vw; /* Make the image 20% larger */
+    height: 120vh; /* Make the image 20% larger */
+    mix-blend-mode: lighten;
+    pointer-events: none; /* Ensure the sun image doesn't interfere with interactions */
+    
   }
 
   .planet-item {
